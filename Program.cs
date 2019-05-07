@@ -36,6 +36,9 @@ namespace Interfaces
         {
             string path;
 
+            Console.WriteLine("Parameters: program.exe folder_name mask");
+            Console.WriteLine("Call example: program.exe [\"folder/\" \"*.json\"]");
+
             if (args.Length == 0)
                 path = AppDomain.CurrentDomain.BaseDirectory;
             else
