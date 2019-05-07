@@ -1,0 +1,11 @@
+/home/ponomarev/Документы/University/Interfaces/bin/Debug/netcoreapp2.1/Interfaces.deps.json
+/home/ponomarev/Документы/University/Interfaces/bin/Debug/netcoreapp2.1/Interfaces.runtimeconfig.json
+/home/ponomarev/Документы/University/Interfaces/bin/Debug/netcoreapp2.1/Interfaces.runtimeconfig.dev.json
+/home/ponomarev/Документы/University/Interfaces/bin/Debug/netcoreapp2.1/Interfaces.dll
+/home/ponomarev/Документы/University/Interfaces/bin/Debug/netcoreapp2.1/Interfaces.pdb
+/home/ponomarev/Документы/University/Interfaces/obj/Debug/netcoreapp2.1/Interfaces.csprojAssemblyReference.cache
+/home/ponomarev/Документы/University/Interfaces/obj/Debug/netcoreapp2.1/Interfaces.csproj.CoreCompileInputs.cache
+/home/ponomarev/Документы/University/Interfaces/obj/Debug/netcoreapp2.1/Interfaces.AssemblyInfoInputs.cache
+/home/ponomarev/Документы/University/Interfaces/obj/Debug/netcoreapp2.1/Interfaces.AssemblyInfo.cs
+/home/ponomarev/Документы/University/Interfaces/obj/Debug/netcoreapp2.1/Interfaces.dll
+/home/ponomarev/Документы/University/Interfaces/obj/Debug/netcoreapp2.1/Interfaces.pdb
