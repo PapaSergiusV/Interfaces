@@ -1,25 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-// using System.Windows.Forms;
 
-namespace Interfaces
+namespace Console4
 {
     class Program
     {
-        static void PrintFilesTree(string path, string mask, int depth = 0)
+        // Рекурсивная функция построения дерева каталогов
+        static void PrintFilesTree(string path, Regex mask, int depth = 0)
         {
-            string[] files = Directory.GetFiles(path).OrderBy(x => x).ToArray();
+            string[] files;
+            try
+            {
+                files = Directory.GetFiles(path).OrderBy(x => x).ToArray();
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                Console.WriteLine($"Папка {path} не найдена");
+                return;
+            }
 
             foreach (string file in files)
-                if (Regex.IsMatch(file, @"\w+"))
+                if (mask.IsMatch(file))
                 {
                     FileInfo fileInf = new FileInfo(file);
                     Console.WriteLine($"{new String(' ', 4 * depth)}|-{fileInf.Name} - {fileInf.Length} bytes");
+
+
                 }
             string[] directories = Directory.GetDirectories(path);
             if (directories.Length == 0)
@@ -27,29 +35,51 @@ namespace Interfaces
             else
                 foreach (string dir in directories)
                 {
-                    Console.WriteLine($"{new String(' ', 4 * depth)}[]{Regex.Match(dir, @"/[\w\s\d]+$").Value}");
+                    Console.WriteLine($"{new String(' ', 4 * depth)}[]{Regex.Match(dir, @"[\w\s\d]+$").Value}");
                     PrintFilesTree(dir, mask, depth + 1);
                 }
+        }
+
+        // Преобразует маску в регулярное выражение
+        static public Regex HandleMask(string mask)
+        {
+            string[] exts = mask.Split('|', ',', ';');
+            string pattern = string.Empty;
+            foreach (string ext in exts)
+            {
+                pattern += @"^";
+                foreach (char symbol in ext)
+                    switch (symbol)
+                    {
+                        case '.': pattern += @"\."; break;
+                        case '?': pattern += @"."; break;
+                        case '*': pattern += @".*"; break;
+                        default: pattern += symbol; break;
+                    }
+                pattern += @"$|";
+            }
+            pattern = pattern.Remove(pattern.Length - 1);
+            return new Regex(pattern, RegexOptions.IgnoreCase);
         }
 
         static void Main(string[] args)
         {
             string path;
 
-            Console.WriteLine("Parameters: program.exe folder_name mask");
-            Console.WriteLine("Call example: program.exe [\"folder/\" \"*.json\"]");
+            Console.WriteLine("\nПараметры вызова: program.exe folder mask");
+            Console.WriteLine("Пример вызова: program.exe [\"folder/\" \"*.json\"]");
 
             if (args.Length == 0)
                 path = AppDomain.CurrentDomain.BaseDirectory;
             else
                 path = AppDomain.CurrentDomain.BaseDirectory + args[0];
-            
-            Console.WriteLine($"Каталог: {path}\n{new String('=', 90)}");
 
-            PrintFilesTree(path, args.Length > 1 ? args[1] : @"*.*");
+            Console.WriteLine($"\nКаталог: {path}\n{new String('=', 90)}");
 
-            Console.WriteLine("\nPress any key for exit");
-            Console.ReadKey();
+            PrintFilesTree(path, HandleMask(args.Length > 1 ? args[1] : @"*.*"));
+
+            //Console.WriteLine("\nPress any key for exit");
+            //Console.ReadKey();
         }
     }
 }
